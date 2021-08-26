@@ -1,0 +1,11 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "^2.1.4",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "node-rest-client": "^2.0.1",
+    "request": "^2.79.0"
+  }
+}
