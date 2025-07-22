@@ -1,6 +1,5 @@
 var fs = require('fs');
 var logLevel = 'info';
-//var logFile = '/home/pi/Documents/FadeCandy/OnlineOrders_SAP/log.txt';
 var logFile = 'log.txt';
 
 function writeToLogFile(text) {
