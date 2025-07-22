@@ -19,9 +19,8 @@ var port = '8080';
 var totalCount = 0;
 
 var urlDef = 'http://localhost:8081';
-//var wsdl = 'http://wmecomd02.idexxi.com:40000/LDEServicesV4WS/LabOrderService?WSDL';
-var wsdl = 'http://wmecomq01.idexxi.com:40000/LDEServicesV4WS/LabOrderService?WSDL';
-//var wsdl = 'https://wmecomqa1-vip.idexxi.com:41000/LDEServicesV4WS/LabOrderService?WSDL';
+var wsdl = '---order---service';
+
 
 app.get('/order/:orderid/:context', function(req, res) {
 	totalCount++;
@@ -37,15 +36,8 @@ app.get('/order/:orderid/:context', function(req, res) {
 	res.end(JSON.stringify(statusStr));
 	logger.log('info', 'serverParent.js', 'I see orderid: ' + orderid + ' contextid: ' + contextid);
 	
-	//if (contextid == 'MEM' || contextid == 'BRI' || contextid == 'CORTEX_EAST' || contextid == 'CORTEX_WEST' || contextid == 'ANTRIM') {
-		//if (totalCount % 2 === 0) { // cut the load in half...
 			makeSoapCall(orderid, soapCallBack);
-		//} else {
-			//logger.log('debug', 'serverParent.js', 'Skipping...');
-		//}
-	//} else {
-		//logger.log('debug', 'serverParent.js', 'Skipping context ' + contextid);
-	//}
+	
 });
 
 app.get('/service/:cmd', function(req, res) {
@@ -77,8 +69,6 @@ function makeSoapCall(ldeorderid, callBack) {
 		if (err != null) {
 			logger.log('debug', 'serverParent.js', 'Error creating client: ' + err);
 		} else {
-			//logger.log('debug', 'serverParent.js', 'Client Describe: ' + JSON.stringify(client.describe()) );
-			//client.setSecurity(new soap.ClientSSLSecurity(wsdlOptions));
 			client.LabOrderService.LabOrderServiceSoapPort.getLabOrderDetails(args, wsdlOptions, callBack);
 		}
 	});
@@ -94,7 +84,6 @@ function resetCounters() {
 }
 
 function soapCallBack(err, result) {
-	// some logic here...if the last time it ran and the current time passes midnight, reset counters
 	var d = new Date();
 	var n = d.getHours();
 	if (n < lastRunHour) {
@@ -108,15 +97,8 @@ function soapCallBack(err, result) {
 	if (err != null) {
 		logger.log('debug', 'serverParent.js', 'Error making request: ' + err);
 	} else {
-		//logger.log('debug', 'serverParent.js', JSON.stringify(result));
 		
 		if (result.labOrderReport.labOrders != null) {
-			
-			//logger.log('debug', 'serverParent.js', 'result.labOrderReport.labOrders is not null');
-			//logger.log('debug', 'serverParent.js', '------result received------');
-			//logger.log('debug', 'serverParent.js', JSON.stringify(result.labOrderReport.labOrders.labOrder));
-			//logger.log('debug', 'serverParent.js', '------result end-----------');
-			
 			
 			var labResults = result.labOrderReport.labOrders.labOrder;
 			var resultList = [];
@@ -195,8 +177,6 @@ function soapCallBack(err, result) {
 							}
 						}
 						
-						
-						// don't get rid of this!!!
 						for (var key in collectionChild.results) {
 							var result = collectionChild.results[key];
 							logger.log('debug', 'serverParent.js', '    I resultlength: ' + result.length);
