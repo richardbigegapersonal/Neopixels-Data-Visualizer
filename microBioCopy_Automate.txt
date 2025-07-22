@@ -1,6 +1,4 @@
-/**
-* Created by ppierrelouis on 8/12/16.
-*/
+
 var Client = require('node-rest-client').Client;
 
 
@@ -11,7 +9,7 @@ var options_auth = { user: "****", password: "****" };
 
 var client = new Client(options_auth);
 
-var endpoint = "http://devreporting.*****.com/idexxui/services/web/orderdetservice.xsodata/ORD_DET?$filter=CreatedOn ge '20160715' and CreatedAt gt '122005' and CreatedOn ge '20160715' and CreatedAt le '124005'";
+var endpoint = "------$filter=CreatedOn ge '20160715' and CreatedAt gt '122005' and CreatedOn ge '20160715' and CreatedAt le '124005'";
 var CreatedOn;
 var format = "&$format=json";
 var URL = endpoint + format;
